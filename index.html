@@ -6,22 +6,21 @@
     <title>今日の日付</title>
     <style>
         body {
-            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: linear-gradient(120deg, #a1c4fd, #c2e9fb); /* コスミックな背景 */
+            background-color: #ffffff; /* 背景色は白 */
+            color: #2c3e50; /* ダークなテキストカラー */
         }
         .date {
             font-size: 2.5em;
-            color: #ffffff;
-            text-shadow: 2px 2px 8px #000000; /* コスミックな効果 */
-            border: 3px solid #ffffff;
-            padding: 20px;
-            border-radius: 15px;
-            background-color: rgba(255, 255, 255, 0.2); /* 背景の透過効果 */
+            color: #2c3e50; /* ダークなテキストカラー */
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2); /* 軽いシャドウ効果 */
+            padding: 15px 30px; /* パディングのみで余白を調整 */
+            background-color: rgba(255, 255, 255, 0.9); /* 背景の透過効果のみ */
         }
     </style>
 </head>
@@ -34,9 +33,8 @@
             year: 'numeric', 
             month: 'long', 
             day: 'numeric', 
-            weekday: 'long' // 曜日を追加
+            weekday: 'long' 
         };
-        // 日本語表示に変更
         dateElement.textContent = today.toLocaleDateString('ja-JP', options);
     </script>
 </body>
