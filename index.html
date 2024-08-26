@@ -16,7 +16,7 @@
             color: #2c3e50; /* ダークなテキストカラー */
         }
         .date {
-            font-size: 2.5em;
+            font-size: 1.8em; /* フォントサイズを小さく調整 */
             color: #2c3e50; /* ダークなテキストカラー */
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2); /* 軽いシャドウ効果 */
             padding: 15px 30px; /* パディングのみで余白を調整 */
@@ -31,11 +31,13 @@
         const today = new Date();
         const options = { 
             year: 'numeric', 
-            month: 'long', 
-            day: 'numeric', 
-            weekday: 'long' 
+            month: '2-digit', 
+            day: '2-digit', 
+            weekday: 'short' // 曜日を短縮形で表示
         };
-        dateElement.textContent = today.toLocaleDateString('ja-JP', options);
+        // 日付のフォーマットを "2024/08/27(火)" に変更
+        const formattedDate = today.toLocaleDateString('ja-JP', options).replace(' ', '').replace('日', '');
+        dateElement.textContent = formattedDate;
     </script>
 </body>
 </html>
