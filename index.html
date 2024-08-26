@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>今日の日付</title>
+    <title>今日の日付と月間スケジュール</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -16,17 +17,43 @@
             color: #2c3e50; /* ダークなテキストカラー */
         }
         .date {
-            font-size: 1.8em; /* フォントサイズを小さく調整 */
+            font-size: 1.2em; /* フォントサイズをさらに小さく調整 */
             color: #2c3e50; /* ダークなテキストカラー */
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2); /* 軽いシャドウ効果 */
-            padding: 15px 30px; /* パディングのみで余白を調整 */
-            background-color: rgba(255, 255, 255, 0.9); /* 背景の透過効果のみ */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* 軽いシャドウ効果 */
+            margin-bottom: 20px;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr); /* 7列のグリッド */
+            gap: 5px;
+            max-width: 300px;
+            text-align: center;
+        }
+        .day, .weekday {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            color: #2c3e50;
+        }
+        .weekday {
+            font-weight: bold;
+            border: none;
+            background: none;
+        }
+        .today {
+            border: 2px solid red; /* 今日の日付を赤い丸でハイライト */
         }
     </style>
 </head>
 <body>
     <div class="date" id="date"></div>
+    <div class="calendar" id="calendar"></div>
+
     <script>
+        // 日付表示
         const dateElement = document.getElementById('date');
         const today = new Date();
         const options = { 
@@ -35,9 +62,42 @@
             day: '2-digit', 
             weekday: 'short' // 曜日を短縮形で表示
         };
-        // 日付のフォーマットを "2024/08/27(火)" に変更
         const formattedDate = today.toLocaleDateString('ja-JP', options).replace(' ', '').replace('日', '');
         dateElement.textContent = formattedDate;
+
+        // 月間スケジュール表示
+        const calendarElement = document.getElementById('calendar');
+        const weekdays = ['月', '火', '水', '木', '金', '土', '日'];
+        const year = today.getFullYear();
+        const month = today.getMonth(); // 0-11 (1月=0)
+        const firstDayOfMonth = new Date(year, month, 1).getDay(); // 月初めの曜日
+        const daysInMonth = new Date(year, month + 1, 0).getDate(); // その月の日数
+
+        // 曜日ヘッダーを追加
+        weekdays.forEach(weekday => {
+            const weekdayElement = document.createElement('div');
+            weekdayElement.textContent = weekday;
+            weekdayElement.classList.add('weekday');
+            calendarElement.appendChild(weekdayElement);
+        });
+
+        // 月曜スタートのための空白埋め
+        const adjustedFirstDay = (firstDayOfMonth + 6) % 7; // 月曜スタートに調整
+        for (let i = 0; i < adjustedFirstDay; i++) {
+            const blank = document.createElement('div');
+            calendarElement.appendChild(blank);
+        }
+
+        // 日付をカレンダーに追加
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayElement = document.createElement('div');
+            dayElement.textContent = day;
+            dayElement.classList.add('day');
+            if (day === today.getDate()) {
+                dayElement.classList.add('today'); // 今日の日付にハイライトを適用
+            }
+            calendarElement.appendChild(dayElement);
+        }
     </script>
 </body>
 </html>
